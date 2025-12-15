@@ -4,6 +4,7 @@ namespace hospital_reservation_system.Repository
 {
     public interface IUserRepository
     {
-      //  Task<List<User>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();
+        Task<User?> GetUserAsync(int Id);
     }
 }

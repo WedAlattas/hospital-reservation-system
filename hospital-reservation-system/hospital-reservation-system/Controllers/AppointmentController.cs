@@ -6,7 +6,8 @@ namespace hospital_reservation_system.Controllers
     public class AppointmentController : Controller
     {
         // GET: appointmentController
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(int SelectedId)
         {
             return View();
         }
