@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/hospital-reservation-system/.vs/hospital-reservation-system
+/hospital-reservation-system/hospital-reservation-system/bin/Debug/net8.0
+/hospital-reservation-system/hospital-reservation-system/obj
+/hospital-reservation-system/hospital-reservation-system/Migrations
+/hospital-reservation-system/hospital-reservation-system/app.db
+/hospital-reservation-system/Instructions.txt
+/hospital-reservation-system/hospital-reservation-system/Instructions.txt
+/hospital-reservation-system/.vs/ProjectEvaluation
