@@ -38,7 +38,21 @@ namespace hospital_reservation_system.Repository
             }
         }
 
-        public async Task<List<Doctor>> GetAllAvaliableAppointmentsAsync()
+        public async Task<Appointment?> GetAppointmentById(int Id)
+        {
+            try
+            {
+                // get by Id appointment
+                return await _databaseContext.appointments.Include(s => s.Time).Include(s => s.Doctor).Where(s => s.Id == Id).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error while fetching get an appointment id: {Id}");
+                throw new Exception();
+            }
+        }
+
+        public async Task<List<Doctor>> GetAvaliableAppointmentsAsync()
         {
             try
             {
@@ -52,7 +66,7 @@ namespace hospital_reservation_system.Repository
             }
         }
 
-        public async Task<List<Doctor>> GetAllDoctorReservationAsync()
+        public async Task<List<Doctor>> GetDoctorReservationsAsync()
         {
             try
             {
@@ -68,7 +82,7 @@ namespace hospital_reservation_system.Repository
 
         }
 
-        public async Task<List<Appointment>> GetAllPreviousAppointmentsAsync()
+        public async Task<List<Appointment>> GetPreviousAppointmentsAsync()
         {
 
 
@@ -87,7 +101,7 @@ namespace hospital_reservation_system.Repository
 
         }
 
-        public async Task<List<TimeSlot>> GetAllSlots()
+        public async Task<List<TimeSlot>> GetSlots()
         {
 
             try
@@ -98,6 +112,32 @@ namespace hospital_reservation_system.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching the static timeSlots");
+                throw new Exception();
+            }
+        }
+
+        public async Task<bool> ReserveAppointment(int appointmentId, int userId)
+        {
+            if(appointmentId <=0 || userId <=0)
+            {
+                return false;
+            }
+
+            try
+            {
+                var appointment = await GetAppointmentById(appointmentId);
+                if(appointment == null)
+                {
+                    return false;
+                }
+                appointment.UserId = userId;
+                _databaseContext.Update(appointment);
+                return await _databaseContext.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error while updating appointments (Reserve an appointment) userId: {userId} appointmentId: {appointmentId}");
                 throw new Exception();
             }
         }

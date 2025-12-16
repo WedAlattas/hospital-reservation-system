@@ -2,7 +2,7 @@
 
 namespace hospital_reservation_system.Models
 {
-    public class AppointmentGetAllPreviousViewModel
+    public class AppointmentsPreviousViewModel
     {
         public List<Appointments> Appointments { get; set; }
     }

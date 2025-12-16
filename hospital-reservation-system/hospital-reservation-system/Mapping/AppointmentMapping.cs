@@ -5,8 +5,10 @@ namespace hospital_reservation_system.Mapping
     public static class AppointmentMapping
     {
 
-        public static List<Data.Appointment> MapToAppointments(
-     AppointmentCreateViewModel model)
+
+
+
+        public static List<Data.Appointment> MapToAppointments( AppointmentCreateViewModel model)
         {
             return model.SelectedTimeSlot.Select(slotId => new Data.Appointment
             {

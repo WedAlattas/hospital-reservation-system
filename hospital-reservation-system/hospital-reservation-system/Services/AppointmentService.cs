@@ -1,4 +1,5 @@
-﻿using hospital_reservation_system.Mapping;
+﻿using hospital_reservation_system.Data;
+using hospital_reservation_system.Mapping;
 using hospital_reservation_system.Models;
 using hospital_reservation_system.Repository;
 
@@ -16,7 +17,7 @@ namespace hospital_reservation_system.Services
 
         public async Task<AppointmentIndexViewModel> GetIndexAsync(int userId)
         {
-            var Doctors = await _appointmentRepository.GetAllAvaliableAppointmentsAsync();
+            var Doctors = await _appointmentRepository.GetAvaliableAppointmentsAsync();
             var user = await _userRepository.GetUserAsync(userId);
 
             return new AppointmentIndexViewModel
@@ -28,8 +29,8 @@ namespace hospital_reservation_system.Services
         }
         public async Task<AppointmentCreateViewModel> GetCreateAsync()
         {
-            var Doctors = await _appointmentRepository.GetAllDoctorReservationAsync();
-            var TimeSlots = await _appointmentRepository.GetAllSlots();
+            var Doctors = await _appointmentRepository.GetDoctorReservationsAsync();
+            var TimeSlots = await _appointmentRepository.GetSlots();
 
             return  new AppointmentCreateViewModel
             {
@@ -45,13 +46,37 @@ namespace hospital_reservation_system.Services
             return  await _appointmentRepository.CreateAppointmentAsync(data);
         }
 
-        public async Task<AppointmentGetAllPreviousViewModel> GetAllPreviousAppointmentsAsync()
+        public async Task<AppointmentsPreviousViewModel> GetAllPreviousAppointmentsAsync()
         {
-            var result = await _appointmentRepository.GetAllPreviousAppointmentsAsync();
-            return new AppointmentGetAllPreviousViewModel
+            var result = await _appointmentRepository.GetPreviousAppointmentsAsync();
+            return new AppointmentsPreviousViewModel
             {
                 Appointments = result.MaptoAppointments()
             };
         }
+
+        public async Task<AppointmentConfirmViewModel> GetConfirmAsync(int appointmentId)
+        {
+            Appointment? data = await _appointmentRepository.GetAppointmentById(appointmentId);
+            if(data == null)
+            {
+                throw new Exception("Appointment not found");
+            }
+            else
+            {
+                return new AppointmentConfirmViewModel
+                {
+                    appointment = data.MaptoAppointment()
+                };
+            }
+        }
+
+
+        public async Task<bool> ConfirmAsync(int appointmentId, int userId)
+        {
+            return await _appointmentRepository.ReserveAppointment(appointmentId: appointmentId, userId: userId);
+            
+        }
+
     }
 }

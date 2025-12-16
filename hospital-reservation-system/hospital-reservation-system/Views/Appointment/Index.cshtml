@@ -19,7 +19,12 @@
                 {
                   foreach(var appointment in doctor.Appointments)
                   {
-                      <button class="btn btn-outline-dark btn-sm me-2">@appointment.SlotTime</button>
+                        <a asp-controller="Appointment"
+                           asp-action="Confirm"
+						   asp-route-id="@appointment.Id"
+                           class="btn btn-outline-dark btn-sm me-2">
+                            @appointment.SlotTime
+                        </a>
 					}
                 }
             </div>
@@ -37,7 +42,7 @@
             </a>
 
             <a asp-controller="Appointment"
-               asp-action="GetPreviousAppointments"
+               asp-action="Previous"
                class="btn btn-outline-dark">
                 Previous Appoinments
             </a>

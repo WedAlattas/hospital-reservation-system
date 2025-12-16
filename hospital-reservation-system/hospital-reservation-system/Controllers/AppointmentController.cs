@@ -87,13 +87,60 @@ namespace hospital_reservation_system.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> GetPreviousAppointments()
+        public async Task<ActionResult> Previous()
         {
             // getting the model data from service
-            AppointmentGetAllPreviousViewModel model = await _appointmentService.GetAllPreviousAppointmentsAsync();
+            AppointmentsPreviousViewModel model = await _appointmentService.GetAllPreviousAppointmentsAsync();
 
             return View(model);
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult> Confirm(int Id)
+        {
+            // getting the model data from service
+            AppointmentConfirmViewModel model = await _appointmentService.GetConfirmAsync(Id);
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Confirm")]
+        public async Task<ActionResult> ConfirmPost(int Id)
+        {
+            try
+            {
+                int userId = 0;
+                if (Request.Cookies.TryGetValue("userId", out var value))
+                {
+                    int.TryParse(value, out userId);
+                }
+                // save the appointment
+                var saved = await _appointmentService.ConfirmAsync(appointmentId: Id, userId: userId);
+                    if (!saved)
+                    {
+                        // in case there is an error while saving the appointment
+                    ModelState.AddModelError("", "Failed to create appointment.");
+                    AppointmentConfirmViewModel model = await _appointmentService.GetConfirmAsync(Id);
+                    return View(model);
+                    }
+                    else
+                    {
+                        // if everything is fine redirect to appointments list page
+                        return RedirectToAction(nameof(Index));
+                    }
+                
+            }
+            catch
+            {
+                // in case there is an exception while saving the appointment
+                AppointmentConfirmViewModel model = await _appointmentService.GetConfirmAsync(Id);
+                ModelState.AddModelError("", "Failed to create appointment.");
+                return View(model);
+
+            }
+        }
     }
+
     }

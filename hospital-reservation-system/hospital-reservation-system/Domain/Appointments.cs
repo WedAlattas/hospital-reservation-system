@@ -1,5 +1,4 @@
-﻿using hospital_reservation_system.Data;
-
+﻿
 namespace hospital_reservation_system.Domain
 {
     public class Appointments

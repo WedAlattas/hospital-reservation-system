@@ -6,15 +6,14 @@ namespace hospital_reservation_system.Services
     {
         Task<AppointmentIndexViewModel> GetIndexAsync(int userId);
         Task<AppointmentCreateViewModel> GetCreateAsync();
-        Task<AppointmentGetAllPreviousViewModel> GetAllPreviousAppointmentsAsync();
+        Task<AppointmentsPreviousViewModel> GetAllPreviousAppointmentsAsync();
+        Task<AppointmentConfirmViewModel> GetConfirmAsync(int appointmentId);
 
 
 
-        
+
         Task<bool> CreateAppointmentAsync(AppointmentCreateViewModel model);
-
-
-
+        Task<bool> ConfirmAsync(int appointmentId, int userId);
 
     }
 }
