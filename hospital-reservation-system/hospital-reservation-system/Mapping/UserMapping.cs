@@ -5,7 +5,7 @@ namespace hospital_reservation_system.Mapping
 {
 
     // this class used to map the database entities with ViewModel 
-    public static class ViewModelMapping
+    public static class UserMapping
     {
 
         public static Domain.User MaptoUser(this Data.User user)
@@ -25,5 +25,9 @@ namespace hospital_reservation_system.Mapping
             return users.Select(u => u.MaptoUser()).ToList();
 
         }
+
+
+
+
     }
 }

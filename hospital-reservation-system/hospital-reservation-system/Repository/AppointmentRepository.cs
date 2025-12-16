@@ -18,10 +18,7 @@ namespace hospital_reservation_system.Repository
             try
             {
                 // get all avaliable appointments 
-                return await _databaseContext.doctors
-                .Include(d => d.Appointments)
-                .Where(d => d.Appointments.Any(a => a.UserId == null))
-                .ToListAsync();
+                return await _databaseContext.doctors.Include(d => d.Appointments).ThenInclude(s=> s.Time).Where(d => !d.Appointments.Any() || d.Appointments.Any(a => a.UserId == null)).ToListAsync();
             }
             catch (Exception ex)
             {

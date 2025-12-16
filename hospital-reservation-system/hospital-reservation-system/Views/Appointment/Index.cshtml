@@ -1,5 +1,44 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model hospital_reservation_system.Models.AppointmentIndexViewModel
+
+<h4 class="mb-4 fw-bold text-center  p-4">
+   Appointment Setup
+</h4>
+
+<div class="container my-4">
+    @foreach(var doctor in Model.Doctors)
+    {
+        <!-- Dr. John -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6 class="fw-bold">@doctor.Name</h6>
+                @if (doctor.Appointments.Count() == 0)
+                {
+                    <p class="text-muted mb-0">No available times</p>
+                }
+                else
+                {
+                  foreach(var appointment in doctor.Appointments)
+                  {
+                      <button class="btn btn-outline-dark btn-sm me-2">@appointment.SlotTime</button>
+					}
+                }
+            </div>
+
+          
+        </div>
+    }
+    @if (Model.user.IsAdmin)
+    {
+        <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-outline-dark">
+                Add New Appointment
+            </button>
+
+            <button type="button" class="btn btn-outline-dark">
+                Previous Appoinments
+            </button>
+        </div>
+    }
+
+
+</div>

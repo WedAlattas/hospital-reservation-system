@@ -1,30 +1,52 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using hospital_reservation_system.Mapping;
+using hospital_reservation_system.Models;
+using hospital_reservation_system.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Principal;
 
 namespace hospital_reservation_system.Controllers
 {
     public class AppointmentController : Controller
     {
-        // GET: appointmentController
-        [HttpGet]
-        public ActionResult Index(int SelectedId)
+        private readonly IUserRepository _userRepository;
+        private readonly IAppointmentRepository _appointmentRepository;
+        public AppointmentController(IUserRepository userRepository, IAppointmentRepository appointmentRepository)
         {
-            return View();
+            _appointmentRepository = appointmentRepository;
+            _userRepository = userRepository;   
+
         }
 
-        // GET: appointmentController/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Index(int SelectedUserId)
+        {
+
+
+            var Doctors = await _appointmentRepository.GetAllAvaliableAppointmentsAsync();
+            var user =await _userRepository.GetUserAsync(SelectedUserId);
+
+            AppointmentIndexViewModel model = new AppointmentIndexViewModel
+            {
+                Doctors = Doctors.MaptoDoctors(), 
+                user = user.MaptoUser()
+            };
+
+            return View(model);
+        }
+
+
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: appointmentController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: appointmentController/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -39,13 +61,13 @@ namespace hospital_reservation_system.Controllers
             }
         }
 
-        // GET: appointmentController/Edit/5
+   
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: appointmentController/Edit/5
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -60,13 +82,13 @@ namespace hospital_reservation_system.Controllers
             }
         }
 
-        // GET: appointmentController/Delete/5
+
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: appointmentController/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

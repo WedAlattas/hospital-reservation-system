@@ -13,10 +13,10 @@ namespace hospital_reservation_system.Data
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Doctor>().HasData(
-               new Doctor { Id = 1, Name = "Dr. Ahmed", Specialty = "Cardiology" },
-               new Doctor { Id = 2, Name = "Dr. Sara", Specialty = "Dermatology" },
-               new Doctor { Id = 3, Name = "Dr. Wed", Specialty = "Dermatology" },
-               new Doctor { Id = 4, Name = "Dr. Mohammed", Specialty = "Cardiology" }
+               new Doctor { Id = 1, Name = "Dr. Ahmed"},
+               new Doctor { Id = 2, Name = "Dr. Sara"},
+               new Doctor { Id = 3, Name = "Dr. Wed" },
+               new Doctor { Id = 4, Name = "Dr. Mohammed" }
            );
 
             modelBuilder.Entity<TimeSlot>().HasData(
