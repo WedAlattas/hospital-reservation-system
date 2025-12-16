@@ -67,7 +67,26 @@ namespace hospital_reservation_system.Repository
 
 
         }
-        
+
+        public async Task<List<Appointment>> GetAllPreviousAppointmentsAsync()
+        {
+
+
+            try
+            {
+                // get all previous appointments 
+                return await _databaseContext.appointments.Include(s=>s.Time).Include(s=> s.Doctor).Include(s=> s.User).Where(s=> s.User != null).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching previous appointments");
+                throw new Exception();
+            }
+
+
+
+        }
+
         public async Task<List<TimeSlot>> GetAllSlots()
         {
 

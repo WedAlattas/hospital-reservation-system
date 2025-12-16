@@ -25,7 +25,9 @@ namespace hospital_reservation_system.Mapping
                 DoctorId = appointments.DoctorId,
                 TimeSlotId = appointments.TimeSlotId,
                 UserId = appointments.UserId,
-                SlotTime = appointments.Time.Time
+                SlotTime = appointments.Time.Time, 
+                UserName = appointments.User != null ? appointments.User.UserName : ""
+               , DoctorName = appointments.Doctor != null ? appointments.Doctor.Name : ""
             };
 
 

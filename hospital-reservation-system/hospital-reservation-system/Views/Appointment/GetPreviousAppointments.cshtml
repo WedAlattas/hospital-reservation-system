@@ -1,0 +1,31 @@
+﻿@model hospital_reservation_system.Models.AppointmentGetAllPreviousViewModel
+
+
+
+<div class="container mt-5">
+    <h4 class="text-center fw-bold mb-4">Appointment History</h4>
+
+    <div class="border border-dark rounded-4 p-4">
+        <table class="table table-borderless mb-0">
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Time</th>
+                    <th>Patient</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.Appointments)
+                {
+                    <tr>
+                        <td>@item.DoctorName</td>
+                        <td>@item.SlotTime</td>
+                        <td>@item.UserName</td>
+                    </tr>
+                }
+              
+            </tbody>
+        </table>
+    </div>
+</div>

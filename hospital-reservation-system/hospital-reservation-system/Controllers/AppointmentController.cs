@@ -84,5 +84,16 @@ namespace hospital_reservation_system.Controllers
 
             }
         }
+
+
+        [HttpGet]
+        public async Task<ActionResult> GetPreviousAppointments()
+        {
+            // getting the model data from service
+            AppointmentGetAllPreviousViewModel model = await _appointmentService.GetAllPreviousAppointmentsAsync();
+
+            return View(model);
+        }
+
     }
     }

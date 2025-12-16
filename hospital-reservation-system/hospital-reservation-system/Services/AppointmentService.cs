@@ -44,5 +44,14 @@ namespace hospital_reservation_system.Services
             var data = AppointmentMapping.MapToAppointments(model);
             return  await _appointmentRepository.CreateAppointmentAsync(data);
         }
+
+        public async Task<AppointmentGetAllPreviousViewModel> GetAllPreviousAppointmentsAsync()
+        {
+            var result = await _appointmentRepository.GetAllPreviousAppointmentsAsync();
+            return new AppointmentGetAllPreviousViewModel
+            {
+                Appointments = result.MaptoAppointments()
+            };
+        }
     }
 }
