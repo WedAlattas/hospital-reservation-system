@@ -1,106 +1,88 @@
 ﻿using hospital_reservation_system.Mapping;
 using hospital_reservation_system.Models;
 using hospital_reservation_system.Repository;
+using hospital_reservation_system.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace hospital_reservation_system.Controllers
 {
     public class AppointmentController : Controller
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IAppointmentRepository _appointmentRepository;
-        public AppointmentController(IUserRepository userRepository, IAppointmentRepository appointmentRepository)
-        {
-            _appointmentRepository = appointmentRepository;
-            _userRepository = userRepository;   
+        private readonly IAppointmentService _appointmentService;
 
+        public AppointmentController(IAppointmentService appointmentService)
+        {
+            _appointmentService = appointmentService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(int SelectedUserId)
+        public async Task<ActionResult> Index()
         {
-
-
-            var Doctors = await _appointmentRepository.GetAllAvaliableAppointmentsAsync();
-            var user =await _userRepository.GetUserAsync(SelectedUserId);
-
-            AppointmentIndexViewModel model = new AppointmentIndexViewModel
+            // getting the userId from cookies
+            int userId = 0;
+            if (Request.Cookies.TryGetValue("userId", out var value))
             {
-                Doctors = Doctors.MaptoDoctors(), 
-                user = user.MaptoUser()
-            };
+                int.TryParse(value, out userId);
+            }
+            // getting the model data from service
+            AppointmentIndexViewModel model = await _appointmentService.GetIndexAsync(userId);
 
             return View(model);
         }
 
-
-        public ActionResult Details(int id)
+        [HttpGet]
+        public async Task<ActionResult> Create()
         {
-            return View();
-        }
-
-        public ActionResult Create()
-        {
-            return View();
+            // getting the model data from service
+            AppointmentCreateViewModel model = await _appointmentService.GetCreateAsync();
+            return View(model);
         }
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(AppointmentCreateViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                // validate the model (Selected doctor and timeSlot)
+                if (!ModelState.IsValid)
+                {
+                    ModelState.Clear();
+                    ModelState.AddModelError("", "Please complete all required fields before submitting.");
+                    model = await _appointmentService.GetCreateAsync();
+                    return View(model);
+                }
+                else
+                {
+                    // save the appointment
+                    var saved = await _appointmentService.CreateAppointmentAsync(model);
+                    if (!saved)
+                    {
+                        // in case there is an error while saving the appointment
+                        ModelState.AddModelError("", "Failed to create appointment.");
+                        model = await _appointmentService.GetCreateAsync();
+                        return View(model);
+                    }
+                    else
+                    {
+                        // if everything is fine redirect to appointments list page
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             catch
             {
-                return View();
-            }
-        }
+                // in case there is an exception while saving the appointment
+                model = await _appointmentService.GetCreateAsync();
+                ModelState.AddModelError("", "Failed to create appointment.");
+                return View(model);
 
-   
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-    
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }
-}
+    }

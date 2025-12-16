@@ -1,6 +1,5 @@
 using hospital_reservation_system.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -8,7 +7,7 @@ var config = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddSqliteDatabase(config.GetConnectionString("DefaultConnection"));
 builder.Services.AddRepositories();
-
+builder.Services.AddServices();
 
 var app = builder.Build();
 
@@ -19,6 +18,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 app.UseExceptionHandler("/Home/Error");
 app.UseHttpsRedirection();
 app.UseStaticFiles();

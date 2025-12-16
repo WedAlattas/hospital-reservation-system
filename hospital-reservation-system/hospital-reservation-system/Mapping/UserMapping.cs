@@ -23,7 +23,6 @@ namespace hospital_reservation_system.Mapping
         public static List<Domain.User> MaptoUser(this List<Data.User> users)
         {
             return users.Select(u => u.MaptoUser()).ToList();
-
         }
 
 

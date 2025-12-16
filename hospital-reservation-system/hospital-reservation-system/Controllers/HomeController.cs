@@ -16,16 +16,26 @@ namespace hospital_reservation_system.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-
+            // get all users from repository
             var Users = await _userRepository.GetAllUsersAsync();
 
-
+            // map to view model
             HomeIndexViewModel model = new HomeIndexViewModel
             {
                 Users = Users.MaptoUser()
             };
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(int SelectedUserId)
+        {
+            // set the selected userId in cookies
+            Response.Cookies.Delete("userId");
+            Response.Cookies.Append("userId", SelectedUserId.ToString());
+            return RedirectToAction("Index", "Appointment");
+        }
+
 
 
         [HttpPost]

@@ -1,9 +1,19 @@
-﻿namespace hospital_reservation_system.Mapping
+﻿using hospital_reservation_system.Models;
+
+namespace hospital_reservation_system.Mapping
 {
     public static class AppointmentMapping
     {
 
-
+        public static List<Data.Appointment> MapToAppointments(
+     AppointmentCreateViewModel model)
+        {
+            return model.SelectedTimeSlot.Select(slotId => new Data.Appointment
+            {
+                DoctorId = model.SelectedDoctorId,
+                TimeSlotId = slotId
+            }).ToList();
+        }
 
 
 
@@ -26,6 +36,21 @@
             return appointments.Select(u => u.MaptoAppointment()).ToList();
         }
 
+
+
+        public static Domain.TimeSlot MaptoTimeSlot(this Data.TimeSlot slot)
+        {
+            return new Domain.TimeSlot
+            {
+                Id = slot.Id,
+                Time = slot.Time
+            };
+        }
+
+        public static List<Domain.TimeSlot> MaptoTimeSlots(this List<Data.TimeSlot> slots)
+        {
+            return slots.Select(u => u.MaptoTimeSlot()).ToList();
+        }
 
 
 

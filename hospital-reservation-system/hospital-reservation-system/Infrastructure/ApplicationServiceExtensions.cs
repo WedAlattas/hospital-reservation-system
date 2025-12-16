@@ -1,5 +1,6 @@
 ﻿using hospital_reservation_system.Data;
 using hospital_reservation_system.Repository;
+using hospital_reservation_system.Services;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,11 @@ namespace hospital_reservation_system.Infrastructure
         {
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            return services;
+        }
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IAppointmentService, AppointmentService>();
             return services;
         }
 

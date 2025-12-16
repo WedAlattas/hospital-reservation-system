@@ -30,9 +30,11 @@
     @if (Model.user.IsAdmin)
     {
         <div class="d-flex justify-content-between mt-3">
-            <button type="button" class="btn btn-outline-dark">
+            <a asp-controller="Appointment"
+               asp-action="Create"
+               class="btn btn-outline-dark">
                 Add New Appointment
-            </button>
+            </a>
 
             <button type="button" class="btn btn-outline-dark">
                 Previous Appoinments
