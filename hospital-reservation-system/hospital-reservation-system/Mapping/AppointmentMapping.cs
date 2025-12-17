@@ -8,16 +8,7 @@ namespace hospital_reservation_system.Mapping
 
 
 
-        public static List<Data.Appointment> MapToAppointments( AppointmentCreateViewModel model)
-        {
-            return model.SelectedTimeSlot.Select(slotId => new Data.Appointment
-            {
-                DoctorId = model.SelectedDoctorId,
-                TimeSlotId = slotId
-            }).ToList();
-        }
-
-
+   
 
         public static Domain.Appointments MaptoAppointment(this Data.Appointment appointments)
         {

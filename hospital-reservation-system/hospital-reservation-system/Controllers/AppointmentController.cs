@@ -1,13 +1,6 @@
-﻿using hospital_reservation_system.Mapping;
-using hospital_reservation_system.Models;
-using hospital_reservation_system.Repository;
+﻿using hospital_reservation_system.Models;
 using hospital_reservation_system.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace hospital_reservation_system.Controllers
 {

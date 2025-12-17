@@ -20,11 +20,8 @@ namespace hospital_reservation_system.Services
             var Doctors = await _appointmentRepository.GetAvaliableAppointmentsAsync();
             var user = await _userRepository.GetUserAsync(userId);
 
-            return new AppointmentIndexViewModel
-            {
-                Doctors = Doctors.MaptoDoctors(),
-                user = user.MaptoUser()
-            };
+            return ViewsMapping.MapToViewModel(Doctors, user!);
+
 
         }
         public async Task<AppointmentCreateViewModel> GetCreateAsync()
@@ -32,27 +29,20 @@ namespace hospital_reservation_system.Services
             var Doctors = await _appointmentRepository.GetDoctorReservationsAsync();
             var TimeSlots = await _appointmentRepository.GetSlots();
 
-            return  new AppointmentCreateViewModel
-            {
-                Doctors = Doctors.MaptoDoctors(),
-                TimeSlots = TimeSlots.MaptoTimeSlots()
-            };
+            return ViewsMapping.MapToViewModel(Doctors, TimeSlots);
 
         }
 
         public async Task<bool> CreateAppointmentAsync(AppointmentCreateViewModel model)
         {
-            var data = AppointmentMapping.MapToAppointments(model);
+            var data = ViewsMapping.MapToAppointments(model);
             return  await _appointmentRepository.CreateAppointmentAsync(data);
         }
 
         public async Task<AppointmentsPreviousViewModel> GetAllPreviousAppointmentsAsync()
         {
-            var result = await _appointmentRepository.GetPreviousAppointmentsAsync();
-            return new AppointmentsPreviousViewModel
-            {
-                Appointments = result.MaptoAppointments()
-            };
+            var data = await _appointmentRepository.GetPreviousAppointmentsAsync();
+           return ViewsMapping.MapToView(data);
         }
 
         public async Task<AppointmentConfirmViewModel> GetConfirmAsync(int appointmentId)
@@ -64,10 +54,7 @@ namespace hospital_reservation_system.Services
             }
             else
             {
-                return new AppointmentConfirmViewModel
-                {
-                    appointment = data.MaptoAppointment()
-                };
+                return ViewsMapping.MapToView(data);
             }
         }
 
