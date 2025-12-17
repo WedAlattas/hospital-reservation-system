@@ -8,10 +8,6 @@ namespace hospital_reservation_system.Services
         Task<AppointmentCreateViewModel> GetCreateAsync();
         Task<AppointmentsPreviousViewModel> GetAllPreviousAppointmentsAsync();
         Task<AppointmentConfirmViewModel> GetConfirmAsync(int appointmentId);
-
-
-
-
         Task<bool> CreateAppointmentAsync(AppointmentCreateViewModel model);
         Task<bool> ConfirmAsync(int appointmentId, int userId);
 

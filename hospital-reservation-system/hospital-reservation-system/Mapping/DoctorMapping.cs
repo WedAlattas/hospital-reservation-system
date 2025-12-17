@@ -1,5 +1,8 @@
 ﻿namespace hospital_reservation_system.Mapping
 {
+
+    // this class used to map Dctor the database entities with domain models 
+
     public static class DoctorMapping    
     {
 

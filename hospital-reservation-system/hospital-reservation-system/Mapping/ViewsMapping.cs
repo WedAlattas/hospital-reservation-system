@@ -4,6 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace hospital_reservation_system.Mapping
 {
+    // this class contains methods to map data models to view models and vice versa
     public static class ViewsMapping
     {
 

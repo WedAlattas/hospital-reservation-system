@@ -1,5 +1,6 @@
 ﻿@model hospital_reservation_system.Models.AppointmentCreateViewModel
 
+@await Html.PartialAsync("_logout")
 
 @using (Html.BeginForm(
     "Create",
@@ -19,7 +20,7 @@
                             <label class="col-sm-4 col-form-label fw-semibold text-end">
                                 Doctor
                             </label>
-
+                            <!-- this drop down list is for doctors-->
                             <div class="col-sm-8">
                                 <select id="doctorDd"
                                         name="SelectedDoctorId"
@@ -28,6 +29,7 @@
 
                                     @foreach (var d in Model.Doctors)
                                     {
+										// hwere we are joining the time slot ids of the doctors appointments if there any 
                                         var slots = string.Join(",", d.Appointments.Select(d=> d.TimeSlotId));
                                         <option value="@d.Id"
                                                 data-slots="@slots">
@@ -40,10 +42,11 @@
 
                         </div>
 
-
+                        <!-- display the time slots-->
                         <div id="slotsContainer" class="d-flex flex-wrap gap-3 justify-content-start">
                             @foreach (var s in Model.TimeSlots)
                             {
+                                
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="checkbox"

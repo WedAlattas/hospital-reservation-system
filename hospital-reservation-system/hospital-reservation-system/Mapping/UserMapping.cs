@@ -4,7 +4,7 @@ using hospital_reservation_system.Domain;
 namespace hospital_reservation_system.Mapping
 {
 
-    // this class used to map the database entities with ViewModel 
+    // this class used to map user the database entities with domain models 
     public static class UserMapping
     {
 

@@ -17,6 +17,7 @@ namespace hospital_reservation_system.Services
 
         public async Task<AppointmentIndexViewModel> GetIndexAsync(int userId)
         {
+            // get all available doctors with appointments for the index page
             var Doctors = await _appointmentRepository.GetAvaliableAppointmentsAsync();
             var user = await _userRepository.GetUserAsync(userId);
 
@@ -26,6 +27,7 @@ namespace hospital_reservation_system.Services
         }
         public async Task<AppointmentCreateViewModel> GetCreateAsync()
         {
+            // get all doctors with their available slots for the create page
             var Doctors = await _appointmentRepository.GetDoctorReservationsAsync();
             var TimeSlots = await _appointmentRepository.GetSlots();
 
@@ -35,18 +37,21 @@ namespace hospital_reservation_system.Services
 
         public async Task<bool> CreateAppointmentAsync(AppointmentCreateViewModel model)
         {
+            // map the view model to data model and save it using repository
             var data = ViewsMapping.MapToAppointments(model);
             return  await _appointmentRepository.CreateAppointmentAsync(data);
         }
 
         public async Task<AppointmentsPreviousViewModel> GetAllPreviousAppointmentsAsync()
         {
+            // get all previous appointments for the previous appointment page
             var data = await _appointmentRepository.GetPreviousAppointmentsAsync();
            return ViewsMapping.MapToView(data);
         }
 
         public async Task<AppointmentConfirmViewModel> GetConfirmAsync(int appointmentId)
         {
+            // get appointment by id for the confirm appointment page
             Appointment? data = await _appointmentRepository.GetAppointmentById(appointmentId);
             if(data == null)
             {
@@ -61,6 +66,7 @@ namespace hospital_reservation_system.Services
 
         public async Task<bool> ConfirmAsync(int appointmentId, int userId)
         {
+            // reserve the appointment 
             return await _appointmentRepository.ReserveAppointment(appointmentId: appointmentId, userId: userId);
             
         }

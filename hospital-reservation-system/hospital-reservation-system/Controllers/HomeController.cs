@@ -36,7 +36,13 @@ namespace hospital_reservation_system.Controllers
             return RedirectToAction("Index", "Appointment");
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> logout()
+        {
+            // delete the userId from cookies
+            Response.Cookies.Delete("userId");
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public IActionResult Error()

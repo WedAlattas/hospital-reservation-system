@@ -1,4 +1,5 @@
 ﻿@model hospital_reservation_system.Models.AppointmentIndexViewModel
+@await Html.PartialAsync("_logout")
 
 <h4 class="mb-4 fw-bold text-center  p-4">
    Appointment Setup
@@ -7,7 +8,6 @@
 <div class="container my-4">
     @foreach(var doctor in Model.Doctors)
     {
-        <!-- Dr. John -->
         <div class="card mb-3">
             <div class="card-body">
                 <h6 class="fw-bold">@doctor.Name</h6>
@@ -17,14 +17,27 @@
                 }
                 else
                 {
-                  foreach(var appointment in doctor.Appointments)
-                  {
-                        <a asp-controller="Appointment"
-                           asp-action="Confirm"
-						   asp-route-id="@appointment.Id"
-                           class="btn btn-outline-dark btn-sm me-2">
-                            @appointment.SlotTime
-                        </a>
+                    foreach(var appointment in doctor.Appointments)
+                    {
+						// if the user is admin just show the time slots without link
+                        if (Model.user.IsAdmin)
+                        {
+                            <a 
+                               class="btn btn-outline-dark btn-sm me-2">
+                                @appointment.SlotTime
+                            </a>
+                        }else
+						
+						// if the user is a patient redirect him to confirm the appointment
+                        {
+                            <a asp-controller="Appointment"
+                               asp-action="Confirm"
+                               asp-route-id="@appointment.Id"
+                               class="btn btn-outline-dark btn-sm me-2">
+                                @appointment.SlotTime
+                            </a>
+                        }
+   
 					}
                 }
             </div>
@@ -32,6 +45,7 @@
           
         </div>
     }
+    
     @if (Model.user.IsAdmin)
     {
         <div class="d-flex justify-content-between mt-3">

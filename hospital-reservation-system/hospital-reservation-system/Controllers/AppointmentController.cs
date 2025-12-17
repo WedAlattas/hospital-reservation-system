@@ -113,7 +113,7 @@ namespace hospital_reservation_system.Controllers
                 var saved = await _appointmentService.ConfirmAsync(appointmentId: Id, userId: userId);
                     if (!saved)
                     {
-                        // in case there is an error while saving the appointment
+                    // in case there is an error while saving the confirmation
                     ModelState.AddModelError("", "Failed to create appointment.");
                     AppointmentConfirmViewModel model = await _appointmentService.GetConfirmAsync(Id);
                     return View(model);
