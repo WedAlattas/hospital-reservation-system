@@ -11,7 +11,8 @@ This project is a simple Hospital reservation system was build using ASP.Net MVC
 - View Previous appointments
 - create new doctor appointments
 
-<img width="343" height="502" alt="hospital_res_usecase_Diagram" src="https://github.com/user-attachments/assets/65fed5c0-b6d3-4289-a24a-a06f8aca7f76" />
+![hospital_res_usecase_Diagram](https://github.com/user-attachments/assets/e99d76d1-7815-4ea7-9590-b36a2f789a86)
+
 
 # Tools
 1. ASP.NET 8 MVC
