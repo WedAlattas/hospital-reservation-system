@@ -50,3 +50,6 @@ dotnet ef database update
 dotnet run
 ```
 
+After running the application, the console will display a message like:
+<img width="1462" height="193" alt="Screenshot 2025-12-17 184912" src="https://github.com/user-attachments/assets/4b08451d-abf6-4c70-8d3e-df4d299b92df" />
+Press **Ctrl + Click** on the URL **http://localhost:5114**
